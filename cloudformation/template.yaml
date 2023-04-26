@@ -3,7 +3,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0c55b159cbfafe1f0
+      ImageId: ami-0dc2d3e4c0f9ebd18
       KeyName: devops90-first-key
       UserData:
         Fn::Base64: !Sub |
