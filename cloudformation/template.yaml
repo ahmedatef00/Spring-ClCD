@@ -4,7 +4,7 @@ Resources:
     Properties:
       InstanceType: t2.micro
       ImageId: ami-0c55b159cbfafe1f0
-      KeyName: your_key_name
+      KeyName: devops90-first-key
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
@@ -13,7 +13,7 @@ Resources:
           sudo mkdir /opt/demo
           sudo chown ec2-user:ec2-user /opt/demo
           cd /opt/demo
-          git clone https://github.com/your_github_repo/demo.git
+          git clone https://github.com/ahmedatef00/Spring-ClCD.git
           cd demo
           mvn package
           java -jar build/libs/demo.jar
