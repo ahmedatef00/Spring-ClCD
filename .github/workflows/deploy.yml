@@ -12,11 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build and Verify
-        run: |
-          cd demo
-          mvn -B clean package -DskipTests
-          mvn -B clean verify -Pintegration-test
+      - name: Maven Package
+        run: mvn -B clean package -DskipTests
+      - name: Maven Verify
+        run: mvn -B clean verify -Pintegration-test
       - name: Print contents of demo/target directory
         run: ls -la demo/target &&pwd
 
