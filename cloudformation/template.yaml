@@ -13,8 +13,10 @@ Resources:
           sudo apt-get update
           sudo apt-get install -y default-jdk git maven
           sudo mkdir /opt/demo
+          sudo mkdir /opt/demo/atef
           sudo chown ubuntu:ubuntu /opt/demo
           cd /opt/demo
+          touch atef.txt
           git clone https://github.com/ahmedatef00/Spring-ClCD.git
           cd Spring-ClCD/demo
           mvn package
