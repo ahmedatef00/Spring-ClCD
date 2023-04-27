@@ -3,8 +3,8 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0dc2d3e4c0f9ebd18
-      KeyName: devops90-first-key
+      ImageId: ami-007855ac798b5175e
+      KeyName: springcicd
       SecurityGroupIds:
         - !Ref MySecurityGroup
       UserData:
