@@ -40,7 +40,8 @@ jobs:
       - name: print
         run: echo ${{ secrets.DOCKER_PASS }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
-       - name: Deploy CloudFormation Stack
+
+      - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
             --stack-name my-stack \
