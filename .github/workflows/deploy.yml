@@ -1,10 +1,8 @@
 name: CI/CD Pipeline
-
-on:
+'on':
   push:
     branches:
       - main
-
 jobs:
   build:
     name: Build and Test
@@ -23,35 +21,30 @@ jobs:
         with:
           name: target
           path: demo/target
-
-
   deploy:
     name: Deploy to EC2
     needs: build
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+      AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
       AWS_REGION: us-east-1
-
-
     steps:
-
-
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: target
           path: demo/target
       - name: check the target
-        run : ls -la demo/
-
+        run: ls -la demo/
       - name: Build Docker image
-        run: ls -la && ls -la demo &&  docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+        run: >-
+          ls -la && ls -la demo && cp demo/target/demo-0.0.1-SNAPSHOT.jar ./&& 
+          docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
       - name: Publish Docker image
-        run: docker push ${{ secrets.DOCKER_USER }}/myapp:latest
-
-
+        run: 'docker push ${{ secrets.DOCKER_USER }}/myapp:latest'
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
@@ -60,4 +53,4 @@ jobs:
             --parameter-overrides InstanceType=t2.micro KeyName=springcicd \
             --capabilities CAPABILITY_IAM
         env:
-          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          AWS_DEFAULT_REGION: '${{ env.AWS_REGION }}'
