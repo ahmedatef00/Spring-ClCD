@@ -37,6 +37,9 @@ jobs:
 
     steps:
 
+
+      - name: check the target
+        run : ls -la demo/
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
