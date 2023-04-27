@@ -5,7 +5,7 @@ Resources:
     Properties:
       ImageId: "ami-007855ac798b5175e"
       InstanceType: "t2.micro"
-      KeyName: !Ref springcicd
+      KeyName: !Ref DeployerKey
       SecurityGroupIds:
         - !Ref MainSecurityGroup
       Tags:
