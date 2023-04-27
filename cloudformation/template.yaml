@@ -17,6 +17,8 @@ Resources:
           cd demo
           mvn package
           java -jar build/libs/demo.jar
+    DependsOn: MySecurityGroup
+
   MySecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -26,8 +28,8 @@ Resources:
           FromPort: 8080
           ToPort: 8080
           CidrIp: 0.0.0.0/0
+
 Outputs:
   WebsiteURL:
     Value: !Sub "http://${EC2Instance.PublicIp}:8080"
     Description: URL for the demo application
-    DependsOn: EC2Instance
