@@ -16,16 +16,14 @@ jobs:
         run: |
           ./mvnw clean package
           ./mvnw test
-
   deploy:
     name: Deploy to EC2
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      map:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: us-west-2
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-west-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -44,5 +42,6 @@ jobs:
             InstanceType=t2.micro
             KeyName=springcicd
             DockerImage=mydockerregistry/myapp:${{ github.sha }}
+            S3BucketName=my-s3-bucket-name
           capabilities: CAPABILITY_IAM
           region: us-west-2
