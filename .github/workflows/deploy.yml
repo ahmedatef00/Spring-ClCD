@@ -13,9 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Maven Package
-        run: mvn -B clean package -DskipTests
+        run: cd demo && mvn -B clean package -DskipTests
       - name: Maven Verify
-        run: mvn -B clean verify -Pintegration-test
+        run: cd demo && mvn -B clean verify -Pintegration-test
       - name: Print contents of demo/target directory
         run: ls -la demo/target &&pwd
 
