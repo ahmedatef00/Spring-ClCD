@@ -26,7 +26,7 @@ Resources:
       GroupDescription: Allow all traffic from public internet
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 8080
-          ToPort: 8080
+          FromPort: 0
+          ToPort: 65535
           CidrIp: 0.0.0.0/0
 
