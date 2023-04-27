@@ -35,7 +35,7 @@ jobs:
           push: true
           tags: mydockerregistry/myapp:${{ github.sha }}
       - name: Deploy using CloudFormation
-        uses: aws-actions/aws-cloudformation-deploy@v1
+        uses: docker://docker.pkg.github.com/aws-actions/aws-cloudformation-deploy/aws-cloudformation-deploy:v1
         with:
           stack-name: my-stack
           template-file: cloudformation/template.yaml
