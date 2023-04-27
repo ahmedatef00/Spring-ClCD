@@ -1,33 +1,51 @@
+---
 Resources:
   EC2Instance:
-    Type: AWS::EC2::Instance
+    Type: "AWS::EC2::Instance"
     Properties:
-      InstanceType: t2.micro
-      ImageId: ami-007855ac798b5175e
-      KeyName: springcicd
+      ImageId: "ami-007855ac798b5175e"
+      InstanceType: "t2.micro"
+      KeyName: !Ref springcicd
       SecurityGroupIds:
-        - !Ref MySecurityGroup
+        - !Ref MainSecurityGroup
+      Tags:
+        - Key: "Name"
+          Value: "DeployVM"
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          sudo apt-get update
-          sudo apt-get install -y default-jdk git maven
-          sudo mkdir /opt/demo
-          sudo mkdir /opt/test
-          sudo chown ubuntu:ubuntu /opt/demo
-          cd /opt/demo
-          touch atef.txt
-          git clone https://github.com/ahmedatef00/Spring-ClCD.git
-          cd Spring-ClCD/demo
-          mvn package
-          nohup java -jar target/demo-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
-  MySecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Allow all traffic from public internet
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 0
-          ToPort: 65535
-          CidrIp: 0.0.0.0/0
+          echo "Hello, World!" > /tmp/hello.txt
 
+  DeployerKey:
+    Type: "AWS::EC2::KeyPair"
+    Properties:
+      KeyName: !Ref KeyName
+      PublicKeyMaterial: !Ref PublicKey
+
+  MainSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Main security group"
+      SecurityGroupIngress:
+        - IpProtocol: "tcp"
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: 80
+          ToPort: 80
+          CidrIp: "0.0.0.0/0"
+
+Parameters:
+  KeyName:
+    Type: "String"
+
+  PublicKey:
+    Type: "String"
+
+Outputs:
+  InstancePublicIP:
+    Value: !GetAtt EC2Instance.PublicIp
+    Description: "Public IP of the EC2 instance"
+    Export:
+      Name: !Sub "${AWS::StackName}-InstancePublicIP"
