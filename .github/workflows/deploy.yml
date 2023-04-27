@@ -46,10 +46,8 @@ jobs:
       - name: check the target
         run : ls -la demo/
 
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Build Docker image
-        run: ls -la && ls -la demo && cp demo/target/demo-0.0.1-SNAPSHOT.jar ./&&  docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+        run: ls -la && ls -la demo &&  docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
       - name: Publish Docker image
         run: docker push ${{ secrets.DOCKER_USER }}/myapp:latest
 
