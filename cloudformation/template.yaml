@@ -13,7 +13,7 @@ Resources:
           sudo apt-get update
           sudo apt-get install -y default-jdk git maven
           sudo mkdir /opt/demo
-          sudo mkdir /opt/demo/atef
+          sudo mkdir /opt/test
           sudo chown ubuntu:ubuntu /opt/demo
           cd /opt/demo
           touch atef.txt
