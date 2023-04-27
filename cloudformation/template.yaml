@@ -12,14 +12,14 @@ Resources:
           #!/bin/bash
           sudo yum update -y
           sudo yum install -y java-1.8.0-openjdk
+          sudo yum install -y maven
           sudo mkdir /opt/demo
           sudo chown ec2-user:ec2-user /opt/demo
           cd /opt/demo
           git clone https://github.com/ahmedatef00/Spring-ClCD.git
-          cd demo
+          cd Spring-ClCD/demo
           mvn package
-          java -jar build/libs/demo.jar
-
+          nohup java -jar target/demo-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
   MySecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
