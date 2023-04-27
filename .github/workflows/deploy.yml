@@ -12,10 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build and Test
+      - name: Build and Verify
         run: |
-          ./mvnw clean package
-          ./mvnw test
+          mvn -B clean package -DskipTests
+          mvn -B clean verify -Pintegration-test
   deploy:
     name: Deploy to EC2
     needs: build
