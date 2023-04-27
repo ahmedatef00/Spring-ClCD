@@ -22,9 +22,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: us-west-2
+      map:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: us-west-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -38,10 +39,10 @@ jobs:
         uses: aws-actions/aws-cloudformation-deploy@v1
         with:
           stack-name: my-stack
-          template-file: cloudformation-template.yml
+          template-file: cloudformation/template.yaml
           parameter-overrides: |
             InstanceType=t2.micro
-            KeyName=MyKeyPair
+            KeyName=springcicd
             DockerImage=mydockerregistry/myapp:${{ github.sha }}
           capabilities: CAPABILITY_IAM
           region: us-west-2
