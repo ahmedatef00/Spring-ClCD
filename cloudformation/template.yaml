@@ -5,7 +5,7 @@ Resources:
     Properties:
       ImageId: "ami-007855ac798b5175e"
       InstanceType: "t2.micro"
-      KeyName: !Ref DeployerKey
+      KeyName: "springcicd"
       SecurityGroupIds:
         - !Ref MainSecurityGroup
       Tags:
@@ -16,11 +16,6 @@ Resources:
           #!/bin/bash
           echo "Hello, World!" > /tmp/hello.txt
 
-  DeployerKey:
-    Type: "AWS::EC2::KeyPair"
-    Properties:
-      KeyName: !Ref KeyName
-      PublicKeyMaterial: !Ref PublicKey
 
   MainSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
