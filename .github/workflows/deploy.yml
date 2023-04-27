@@ -37,8 +37,8 @@ jobs:
         with:
           name: target
           path: demo/target
-      - name: check the target
-        run: ls -la demo/
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
       - name: Build Docker image
         run: >-
           ls -la && ls -la demo && cp demo/target/demo-0.0.1-SNAPSHOT.jar ./&& 
