@@ -10,11 +10,10 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          sudo yum update -y
-          sudo yum install -y java-1.8.0-openjdk
-          sudo yum install -y maven
+          sudo apt-get update
+          sudo apt-get install -y default-jdk git maven
           sudo mkdir /opt/demo
-          sudo chown ec2-user:ec2-user /opt/demo
+          sudo chown ubuntu:ubuntu /opt/demo
           cd /opt/demo
           git clone https://github.com/ahmedatef00/Spring-ClCD.git
           cd Spring-ClCD/demo
