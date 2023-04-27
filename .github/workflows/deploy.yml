@@ -49,7 +49,7 @@ jobs:
         run: |
           aws cloudformation deploy \
             --stack-name my-stack \
-            --template-file packaged-template.yaml \
+            --template-file cloudformation/template.yaml \
             --parameter-overrides InstanceType=t2.micro KeyName=springcicd \
             --capabilities CAPABILITY_IAM
         env:
