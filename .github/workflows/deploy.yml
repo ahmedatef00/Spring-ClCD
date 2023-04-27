@@ -38,13 +38,13 @@ jobs:
     steps:
 
 
-      - name: check the target
-        run : ls -la demo/
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: target
           path: demo/target
+      - name: check the target
+        run : ls -la demo/
 
       - name: Checkout code
         uses: actions/checkout@v2
