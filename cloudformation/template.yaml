@@ -42,6 +42,7 @@ Parameters:
 
   PublicKey:
     Type: "String"
+    Default: springcicd
 
 Outputs:
   InstancePublicIP:
