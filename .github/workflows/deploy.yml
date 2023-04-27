@@ -17,6 +17,9 @@ jobs:
           cd demo
           mvn -B clean package -DskipTests
           mvn -B clean verify -Pintegration-test
+      - name: Print contents of demo/target directory
+        run: ls -la demo/target
+
   deploy:
     name: Deploy to EC2
     needs: build
