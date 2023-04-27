@@ -30,3 +30,4 @@ Outputs:
   WebsiteURL:
     Value: !Sub "http://${EC2Instance.PublicIp}:8080"
     Description: URL for the demo application
+    DependsOn: EC2Instance
