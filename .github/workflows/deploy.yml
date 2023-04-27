@@ -40,8 +40,6 @@ jobs:
             dockerfile: Dockerfile
             build-args: |
               JAR_FILE=demo/target/demo-0.0.1-SNAPSHOT.jar
-            run: |
-              cp target/demo-0.0.1-SNAPSHOT.jar .
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
