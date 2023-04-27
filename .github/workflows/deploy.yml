@@ -28,14 +28,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Package CloudFormation Template
-        run: |
-          aws cloudformation package \
-            --template-file cloudformation/template.yaml \
-            --s3-bucket my-s3-bucket-name \
-            --output-template-file packaged-template.yaml
-        env:
-          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v2
+        with:
+            context: .
+            push: true
+            tags: mydockerregistry/myapp:${{ github.sha }}
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
