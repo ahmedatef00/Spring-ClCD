@@ -42,9 +42,9 @@ jobs:
       - name: Build Docker image
         run: >-
           ls -la && ls -la demo && cp demo/target/demo-0.0.1-SNAPSHOT.jar ./&& 
-          docker build -t ${{ secrets.DOCKER_USER }}/springCICD:latest .
+          docker build -t ${{ secrets.DOCKER_USER }}/springcicd:latest .
       - name: Publish Docker image
-        run: 'docker push ${{ secrets.DOCKER_USER }}/springCICD:latest'
+        run: 'docker push ${{ secrets.DOCKER_USER }}/springcicd:latest'
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
@@ -52,7 +52,7 @@ jobs:
             --template-file cloudformation/template.yaml \
             --parameter-overrides InstanceType=t2.micro KeyName=springcicd \
             --capabilities CAPABILITY_IAM
-          docker pull ${{ secrets.DOCKER_USER }}/springCICD:latest
-          docker run -p 8080:8080 -d ${{ secrets.DOCKER_USER }}/springCICD:latest
+          docker pull ${{ secrets.DOCKER_USER }}/springcicd:latest
+          docker run -p 8080:8080 -d ${{ secrets.DOCKER_USER }}/springcicd:latest
         env:
           AWS_DEFAULT_REGION: '${{ env.AWS_REGION }}'
