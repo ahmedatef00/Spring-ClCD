@@ -45,6 +45,15 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USER }}/springcicd:latest .
       - name: Publish Docker image
         run: 'docker push ${{ secrets.DOCKER_USER }}/springcicd:latest'
+      - name: Install and configure SSH
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-client
+          echo ${{ secrets.PRIVATE_SSH_KEY }} > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.SERVER_PUBLIC_IP }}>> ~/.ssh/known_hosts  
+        
+
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
@@ -52,7 +61,5 @@ jobs:
             --template-file cloudformation/template.yaml \
             --parameter-overrides InstanceType=t2.micro KeyName=springcicd \
             --capabilities CAPABILITY_IAM
-          docker pull ${{ secrets.DOCKER_USER }}/springcicd:latest
-          docker run -p 8080:8080 -d ${{ secrets.DOCKER_USER }}/springcicd:latest
         env:
           AWS_DEFAULT_REGION: '${{ env.AWS_REGION }}'
