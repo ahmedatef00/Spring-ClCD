@@ -38,22 +38,32 @@ jobs:
           name: target
           path: demo/target
       - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+        run: >-
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS
+          }}
       - name: Build Docker image
         run: >-
           ls -la && ls -la demo && cp demo/target/demo-0.0.1-SNAPSHOT.jar ./&& 
           docker build -t ${{ secrets.DOCKER_USER }}/springcicd:latest .
       - name: Publish Docker image
         run: 'docker push ${{ secrets.DOCKER_USER }}/springcicd:latest'
-      - name: Install and configure SSH
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openssh-client
-          echo "${{ secrets.PRIVATE_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan "${{ secrets.SERVER_PUBLIC_IP }}" >> ~/.ssh/known_hosts  
-        
-
+      - name: Pull Docker image on remote machine
+        uses: appleboy/ssh-action@master
+        with:
+          host: '${{ secrets.SERVER_PUBLIC_IP }}'
+          username: ubuntu
+          key: '${{ secrets.PRIVATE_SSH_KEY }}'
+          script: |
+            mkdir atef
+            docker pull springcicd:latest
+      - name: Run Docker container on remote machine
+        uses: appleboy/ssh-action@master
+        with:
+          host: '${{ secrets.SERVER_PUBLIC_IP }}'
+          username: ubuntu
+          key: '${{ secrets.PRIVATE_SSH_KEY }}'
+          script: |
+            docker run -d -p 80:80 springcicd:latest
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
