@@ -54,7 +54,8 @@ jobs:
           username: ubuntu
           key: '${{ secrets.PRIVATE_SSH_KEY }}'
           script: |
-            mkdir atef
+            sudo apt install docker.io -y
+            sudo apt install awscli -y
             docker pull springcicd:latest
       - name: Run Docker container on remote machine
         uses: appleboy/ssh-action@master
@@ -63,7 +64,7 @@ jobs:
           username: ubuntu
           key: '${{ secrets.PRIVATE_SSH_KEY }}'
           script: |
-            docker run -d -p 80:80 springcicd:latest
+            docker run -d -p 80:8080 ${{ secrets.DOCKER_USER }}/springcicd:latest
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
