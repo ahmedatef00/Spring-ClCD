@@ -54,6 +54,7 @@ jobs:
           username: ubuntu
           key: '${{ secrets.PRIVATE_SSH_KEY }}'
           script: |
+            sudo apt update
             sudo apt install docker.io -y
             sudo apt install awscli -y
             docker pull springcicd:latest
